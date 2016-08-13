@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test if will be ignored</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<body>
+    <div>
+        <form action="" class="testForm">
+            <div><input type="text" name="input1" value="1" class="testInput">aaa</div>
+            <div><input type="text" name="input2" value="2"></div>
+            <div><input type="text" value="3"><span name="span4" value="4"></span></div>
+        </form>
+    </div>
+</body>
+<script>
+    
+        
+//    写一个jquery组件,获取form表单中所有元素的键/值,并以Ajax方法提交。不能使用JQ提供的序列化方法。 -2015.堆糖
+    //todo 闭包
+    var message = {};
+    function test(elm){
+        Array.prototype.map.call(elm,function(item,i){
+            if(item.name && item.value){
+                message[item.name] = item.value;
+            }
+            if(item.children.length){
+                test(item);
+            }
+        });
+    }
+    test(document.getElementsByClassName('testForm'));
+    console.log($.param(message));
+    $.ajax({
+        data: $.param(message),
+        type: post,
+        success: function() {
+            console.log('success');
+        },
+        error: function(){
+            console.log('error');
+        }
+    });
+
+    </script>
+</html>
